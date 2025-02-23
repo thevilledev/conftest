@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: INVALID-NAME  # Violates naming convention
+  namespace: prod_env # Violates naming convention
+  labels:
+    App: myapp      # Violates naming convention
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: nginx:latest  # Violates Docker policy
+        ports:
+        - containerPort: 80
+        # Missing resource limits (violates Kubernetes policy)
+        securityContext:
+          privileged: true  # Violates Docker policy 
